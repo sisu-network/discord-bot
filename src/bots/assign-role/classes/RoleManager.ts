@@ -25,9 +25,13 @@ class RoleManager {
     return keys;
   }
 
+  hasRole(member: GuildMember, roleId: Snowflake): boolean {
+    return member.roles.cache.has(roleId);
+  }
+
   addRole(memberId: Snowflake, roleId: Snowflake): void {
     const member = this.members.get(memberId);
-    if (member) {
+    if (member && !this.hasRole(member, roleId)) {
       member.roles.add(roleId);
       this.addedRoleMembers.push(member.user.tag);
     }
@@ -35,7 +39,7 @@ class RoleManager {
 
   removeRole(memberId: Snowflake, roleId: Snowflake): void {
     const member = this.members.get(memberId);
-    if (member) {
+    if (member && this.hasRole(member, roleId)) {
       member.roles.remove(roleId);
       this.removedRoleMembers.push(member.user.tag);
     }

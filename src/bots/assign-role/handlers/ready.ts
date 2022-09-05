@@ -15,5 +15,11 @@ module.exports = async (client: Client): Promise<void> => {
   keys.forEach((key) => {
     manager.addRole(key, config.testnet1SupporterRoleId);
   });
-  console.log(manager.addedRoleMembers, manager.addedRoleMembers.length);
+
+  console.log({
+    members: manager.addedRoleMembers,
+    count: manager.addedRoleMembers.length,
+  });
+
+  process.exit(0);
 };
