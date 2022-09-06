@@ -1,14 +1,12 @@
-import { Collection, Guild, GuildMember, Snowflake } from "discord.js";
+import { Collection, GuildMember, Snowflake } from "discord.js";
 
 class RoleManager {
   members: Collection<Snowflake, GuildMember>;
   addedRoleMembers: string[] = [];
   removedRoleMembers: string[] = [];
 
-  constructor(guild: Guild) {
-    this.members = guild.members.cache.filter((member) =>
-      Boolean(member && member.user && !member.user.bot)
-    );
+  constructor(members: Collection<Snowflake, GuildMember>) {
+    this.members = members;
   }
 
   findKeys(names: string[]): string[] {

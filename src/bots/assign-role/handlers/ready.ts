@@ -10,7 +10,12 @@ module.exports = async (client: Client): Promise<void> => {
   if (!guild) return;
   const names = await getNames();
 
-  const manager = new RoleManager(guild);
+  const m = await guild.members.fetch();
+  const members = m.filter((member) =>
+    Boolean(member && member.user && !member.user.bot)
+  );
+
+  const manager = new RoleManager(members);
   const keys = manager.findKeys(names);
   keys.forEach((key) => {
     manager.addRole(key, config.testnet1SupporterRoleId);
@@ -20,6 +25,4 @@ module.exports = async (client: Client): Promise<void> => {
     members: manager.addedRoleMembers,
     count: manager.addedRoleMembers.length,
   });
-
-  process.exit(0);
 };
